@@ -1,21 +1,28 @@
 import cv2
 
-filename = input("Image Filename with extension: ")
-encoded = input("Encoded Message: ")
 
-print(f"\nImage = {filename} \nSecret message = {encoded}")
+# print(f"\nImage = {fileName}")
 
 
-def open_image(filename):
-    if filename.endswith("png"):
-        opnImg = cv2.imread(filename)
-        cv2.imshow('Your image: ', opnImg)
-        cv2.waitKey(0)
+def open_image():  # This function is used to load an image
+    while True:
+        fileName = input("\nImage Filename with extension: ")
+        if fileName.endswith("png") or fileName.endswith("jpg") or fileName.endswith("jpeg"):
+            opnImg = cv2.imread(fileName)
+            cv2.imshow('Your inputted image: ', opnImg)
+            cv2.waitKey(0)
+            break
 
-    else:
-        print("\nPlease add an image with the png suffix")
+        else:
+            print("\nPlease include a valid image!!")
 
 
-open_image(filename)
+open_image()
 
-#cv2.imwrite('dog.jpg', opnImg)
+
+def encoding():
+    encode = input("Encoded Message: ")
+    return ("test")
+
+
+encoding()
