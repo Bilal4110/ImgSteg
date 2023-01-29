@@ -4,7 +4,8 @@ import cv2
 def open_image():  # This function is used to load the inputted image using the OpenCV module
     while True:
         fileName = input("\nImage Filename with extension: ")
-        if fileName.endswith("png") or fileName.endswith("jpg") or fileName.endswith("jpeg"):  # This checks to see if the image is valid
+        if fileName.endswith("png") or fileName.endswith("jpg") or fileName.endswith(
+                "jpeg"):  # This checks to see if the image is valid
             opnImg = cv2.imread(fileName)
             cv2.imshow('Your inputted image: ', opnImg)
             cv2.waitKey(0)
@@ -12,8 +13,6 @@ def open_image():  # This function is used to load the inputted image using the 
 
         else:
             print("\nPlease choose a valid image file!!")
-
-
 
 
 def message_to_binary():  # Before encoding the image, we need to first convert the code to binary (https://www.thepythoncode.com/article/hide-secret-data-in-images-using-steganography-python)
@@ -27,13 +26,9 @@ def message_to_binary():  # Before encoding the image, we need to first convert 
         return enBin
 
 
-
 def encode():
-    opnImg=open_image()
-    enBin=message_to_binary()
-    print(f"the test is {enBin}")
-    cv2.imshow('TEST: ', opnImg)
-    cv2.waitKey(0)
+    opnImg = open_image()
+    enBin = message_to_binary()
 
 
 
