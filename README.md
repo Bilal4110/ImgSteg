@@ -1,8 +1,13 @@
-# ImgSteg
+# README
 
-----
-### README
+---
+### **Introduction**
 
-ImgSteg is a program which performs steganography, by encoding and decoding text within images. 
+**ImgSteg** is an (opensource) steganography tool which encodes and decodes messages within an image.
+
+### Instructions
+
+
+
 
 
