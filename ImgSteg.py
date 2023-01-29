@@ -16,14 +16,15 @@ def open_image():  # This function is used to load the inputted image using the 
 
 
 def message_to_binary():  # Before encoding the image, we need to first convert the code to binary (https://www.thepythoncode.com/article/hide-secret-data-in-images-using-steganography-python)
-    encodeMessage = input("Encoded Message: ")
-    # if type(encodeMessage) == str or type(encodeMessage) == int:
-    if encodeMessage == "":
-        print("Please include a message to encode")
-    else:
-        enBin = ''.join([format(ord(i), "08b") for i in encodeMessage])
-        print(f"\nYour message has been converted into binary: {enBin}")
-        return enBin
+    while True:
+        encodeMessage = input("Encoded Message: ")
+        # if type(encodeMessage) == str or type(encodeMessage) == int:
+        if encodeMessage == "":
+            print("\nPlease include a message to encode")
+        else:
+            enBin = ''.join([format(ord(i), "08b") for i in encodeMessage])
+            print(f"\nYour message has been converted into binary: {enBin}")
+            return enBin
 
 
 def encode():
