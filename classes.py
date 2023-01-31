@@ -1,9 +1,11 @@
 import cv2
 import numpy as np
 
+
 class MyClass:
     fileName = input("\nImage Filename with extension (Please choose PNG images to ensure efficiency): ")
     img = cv2.imread(fileName)
+
     encodeMessage = input("Encoded Message:")
 
     def open_image(self):
@@ -20,21 +22,25 @@ class MyClass:
 
     def message_to_binary(self):
         if type(self.encodeMessage) == str:
-            return ''.join([format(ord(i), "08b") for i in self.encodeMessage]) # Converts the inputted string into binary
+            return ''.join(
+                [format(ord(i), "08b") for i in self.encodeMessage])  # Converts the inputted string into binary
 
         else:
             raise TypeError("Input type not supported")
 
-    def hideData(self):
-        print(self.encodeMessage)
-
-
-
-
+    def encode(self, secretMessage):
+        totalPixels = self.img.shape[0] * self.img[1] * 3 // 8
+        print(f"Maximum bytes to encode", totalPixels)
+        if len(secretMessage) > totalPixels:
+            raise ValueError("Error encountered, please use bigger image or less data")
+        secretMessage += "DDDDD" # DELIMITER
+        data_index = 0
+        binary_Secret_Message = self.message_to_binary(secretMessage)
+        data_len
 
 
 if __name__ == '__main__':
     obj = MyClass()
     obj.open_image()
     obj.message_to_binary()
-    obj.hideData()
+    obj.encode()
