@@ -2,11 +2,10 @@ import cv2
 import numpy as np
 
 
-class MyClass:
+class ImgSteg:
     fileName = input("\nImage Filename with extension (Please choose PNG images to ensure efficiency): ")
     img = cv2.imread(fileName)
     encodeMessage = input("Encoded Message:")
-    n = 0
 
     def open_image(self):
         if self.fileName.endswith("png") or self.fileName.endswith("jpg") or self.fileName.endswith(
@@ -14,36 +13,45 @@ class MyClass:
             cv2.imshow('Your inputted image: ', self.img)
             cv2.waitKey(0)
         elif self.fileName == "":
-            print("\n ERROR: Can not leave filename empty")
+            print("\nERROR: Can not leave filename empty. Please try again")
             quit()
         else:
-            print("\nERROR: Please choose a valid image")
+            print("\nERROR: Please choose a valid image.")
             quit()
 
-    def encode(self):
-        pixel_array = np.array(self.img)
 
+
+    def encode(self):
         height, width, channels = self.img.shape
+        pixelArray = np.array(self.img)
+
         if channels == 3:
-            print("image is RGB")
-            self.n = 3
+            n = 3
         elif channels == 4:
-            print("image is RGBA")
-            self.n = 4
-        total_pixels = pixel_array // self.n
-        self.encodeMessage += "#####" # Delimiter
+            n = 4
+
+        totalPixels = pixelArray //self.n
+        self.encodeMessage += "DDDDD" # Delimiter
         binaryMessage = ''.join([format(ord(i), "08b") for i in self.encodeMessage])
-        print(binaryMessage)
         requiredPixels = len(binaryMessage)
 
-        if (requiredPixels > total_pixels).all():
+        if (requiredPixels > totalPixels).all():
             print("ERROR, please reduce your message or choose a bigger image ")
             quit()
 
+        else:
+            check_index=0
+            for pixel in range(totalPixels):
+                for q in range(0,3):
+                    if check_index < requiredPixels:
+                        pixelArray[pixel][q] = int(bin(pixelArray[p][q]) [2:9] + binaryMessage[pixel], 2)
+                        check_index +=1
+            pixelArray = pixelArray.reshape(height,width)
+            cr
 
 
 
 if __name__ == '__main__':
-    obj = MyClass()
+    obj = ImgSteg()
     obj.open_image()
     obj.encode()
