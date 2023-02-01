@@ -1,12 +1,13 @@
 import cv2
 import numpy as np
+from PIL import Image
 
 
 class MyClass:
     fileName = input("\nImage Filename with extension (Please choose PNG images to ensure efficiency): ")
     img = cv2.imread(fileName)
-
     encodeMessage = input("Encoded Message:")
+    n = 0
 
     def open_image(self):
         if self.fileName.endswith("png") or self.fileName.endswith("jpg") or self.fileName.endswith(
@@ -14,33 +15,34 @@ class MyClass:
             cv2.imshow('Your inputted image: ', self.img)
             cv2.waitKey(0)
         elif self.fileName == "":
-            print("\n ERROR: Can not leave empty")
+            print("\n ERROR: Can not leave filename empty")
             quit()
         else:
             print("\nERROR: Please choose a valid image")
             quit()
 
-    def message_to_binary(self):
-        if type(self.encodeMessage) == str:
-            return ''.join(
-                [format(ord(i), "08b") for i in self.encodeMessage])  # Converts the inputted string into binary
+    def encode(self):
+        pixel_array = np.array(self.img)
 
-        else:
-            raise TypeError("Input type not supported")
+        height, width, channels = self.img.shape
+        if channels == 3:
+            print("image is RGB")
+            self.n = 3
+        elif channels == 4:
+            print("image is RGBA")
+            self.n = 4
+        total_pixels = pixel_array // self.n
+        self.encodeMessage += "#####" # Delimiter
+        binaryMessage = ''.join([format(ord(i), "08b") for i in self.encodeMessage])
+        print(binaryMessage)
+        requiredPixels = len(binaryMessage)
+        print(requiredPixels)
 
-    def encode(self, secretMessage):
-        totalPixels = self.img.shape[0] * self.img[1] * 3 // 8
-        print(f"Maximum bytes to encode", totalPixels)
-        if len(secretMessage) > totalPixels:
-            raise ValueError("Error encountered, please use bigger image or less data")
-        secretMessage += "DDDDD" # DELIMITER
-        data_index = 0
-        binary_Secret_Message = self.message_to_binary(secretMessage)
-        data_len
+        if requiredPixels > total_pixels:
+            print("ERROR, please reduce your message or choose a bigger image ")
 
 
 if __name__ == '__main__':
     obj = MyClass()
     obj.open_image()
-    obj.message_to_binary()
     obj.encode()
