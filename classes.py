@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-from PIL import Image
 
 
 class MyClass:
@@ -36,10 +35,12 @@ class MyClass:
         binaryMessage = ''.join([format(ord(i), "08b") for i in self.encodeMessage])
         print(binaryMessage)
         requiredPixels = len(binaryMessage)
-        print(requiredPixels)
 
-        if requiredPixels > total_pixels:
+        if (requiredPixels > total_pixels).all():
             print("ERROR, please reduce your message or choose a bigger image ")
+            quit()
+
+
 
 
 if __name__ == '__main__':
