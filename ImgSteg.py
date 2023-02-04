@@ -1,36 +1,34 @@
 import cv2
+import numpy as np
 
 
-def open_image():  # This function is used to load the inputted image using the OpenCV module
-    while True:
-        fileName = input("\nImage Filename with extension: ")
-        if fileName.endswith("png") or fileName.endswith("jpg") or fileName.endswith(
-                "jpeg"):  # This checks to see if the image is valid
-            opnImg = cv2.imread(fileName)
-            cv2.imshow('Your inputted image: ', opnImg)
-            cv2.waitKey(0)
-            return opnImg
+def binary_converter(content): # This function will be used to convert image pixels and the encoded message into their binary equivalent
+    if type(content) == str:
+        return ''.join([format(ord(i), "08b") for i in content])
 
-        else:
-            print("\nPlease choose a valid image file!!")
+    elif type(content) == bytes or type(content) == np.ndarray:
+        return [format(i, "08b") for i in content]
 
-
-def message_to_binary():  # Before encoding the image, we need to first convert the code to binary (https://www.thepythoncode.com/article/hide-secret-data-in-images-using-steganography-python)
-    while True:
-        encodeMessage = input("Encoded Message: ")
-        # if type(encodeMessage) == str or type(encodeMessage) == int:
-        if encodeMessage == "":
-            print("\nPlease include a message to encode")
-        else:
-            enBin = ''.join([format(ord(i), "08b") for i in encodeMessage])
-            print(f"\nYour message has been converted into binary: {enBin}")
-            return enBin
+    elif type(content) == int or type(content) == np.uint8:
+        return format(content, "08b")
+    else:
+        print ("input not supported, please try again")
 
 
-def encode():
-    opnImg = open_image()
-    enBin = message_to_binary()
+class ImgSteg:
+    fileName = input("\nImage Filename with extension (Please choose PNG images to ensure efficiency): ")
+    img = cv2.imread(fileName)
+    encodeMessage = input("Encoded Message:")
+
+    value = 255
+    convertedInt = binary_converter(value)
+    print(convertedInt)
+    value2 = "HELLO"
+    convertedstr = binary_converter(value2)
+    print(convertedstr)
 
 
 
-encode()
+
+
+
