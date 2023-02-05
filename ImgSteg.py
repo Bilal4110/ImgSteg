@@ -10,21 +10,29 @@ import numpy as np
 
 class ImgSteg:
 
+    print("\nWelcome to ImgSteg!!")
+
+    # Function to open and display image to user
+    def display_image(self, img):
+
+        cv2.imshow("Your inputted image: ", img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+
+
     # This function will be used to convert image pixels and the encoded message into their binary equivalent
     def binary_converter(self, content):
-
-
         if type(content) == str:
             return ''.join([format(ord(i), "08b") for i in content])
 
-        elif type(content) == int or type(content) == np.uint8:
-            return format(content, "08b")
-
-        elif type(content) == bytes or type(content) == np.ndarray:
+        elif type(content) == np.ndarray:
             return [format(i, "08b") for i in content]
 
+        elif type(content) == np.uint8:
+            return format(content, "08b")
         else:
             print("input not supported, please try again")
+
 
     # This function takes in code
     def encoder(self, img, hiddenMessage):
@@ -37,7 +45,7 @@ class ImgSteg:
             print("\nERROR: Insufficient space, please increase the size of the image or reduce the message you are trying to encode!!!")
 
         # This is the delimiter which will be added to the message. (Any string can be used as a delimiter)
-        hiddenMessage += "====="
+        hiddenMessage += "*****"
         binaryMessage = self.binary_converter(hiddenMessage)
         dataLength = len(binaryMessage)
         index = 0
@@ -60,11 +68,21 @@ class ImgSteg:
 
         return img
 
+    def encode_process(self):
 
-
-
+        fileName = input("\nImage Filename with extension: ")
+        if fileName.endswith("png"):
+            image = cv2.imread(fileName)
+            self.display_image(image)
+            encodeMessage = input("Encoded Message: ")
+            print("\nEncoding...")
+            self.encodedImage = self.encoder(image, encodeMessage)
+            self.dest = (fileName.removesuffix(".png") + "_encoded.png")
+            cv2.imwrite(self.dest, self.encodedImage)
+            print("\nyour image has been saved")
 
 if __name__ == "__main__":
     obj = ImgSteg()
+    obj.encode_process()
 
 
