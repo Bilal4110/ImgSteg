@@ -19,6 +19,7 @@ class ImgSteg:
         image: Returns the data of the opened image in the form of a numpy array.
 
         """
+
         image = cv2.imread(img, cv2.IMREAD_ANYCOLOR)
         cv2.imshow("Your Inputted image", image)
         cv2.waitKey(0)
@@ -39,6 +40,7 @@ class ImgSteg:
         If the content is string, then a binary string is returned.
         If the content is a numpy ndarray, then a list of binary pixel values is returned.
         """
+
         if type(content) == str:
             return ''.join([format(ord(i), "08b") for i in content]) # https://www.geeksforgeeks.org/python-convert-string-to-binary/
         elif type(content) == np.ndarray:
@@ -46,6 +48,8 @@ class ImgSteg:
 
 
     def hide_text(self, image, hiddenMessage):
+
+
         # times row,columns and three channels (r,g,b) to get full image size. Divided by 8 to get byte value
         totalPixels = image.shape[0] * image.shape[1] * 3 // 8
         print(f"You have a total of {totalPixels} bytes to encode")
