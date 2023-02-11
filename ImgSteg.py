@@ -8,7 +8,8 @@ class ImgSteg:
     def open_image(self, img):
 
         """
-        This function opens and displays an image in any colour using the OpenCV module.
+
+        This function opens and displays an image using the OpenCV module.
 
         :parameter:
 
@@ -31,14 +32,18 @@ class ImgSteg:
 
     def binary_converter(self, content):
         """
+
         Converts a string (Binary message) or a numpy array (pixel) to its equivalent binary representation
 
         :parameter:
+
          content: the inputted content which needs to be converted to binary.
 
         :return:
+
         If the content is string, then a binary string is returned.
         If the content is a numpy ndarray, then a list of binary pixel values is returned.
+
         """
 
         if type(content) == str:
@@ -49,6 +54,13 @@ class ImgSteg:
 
     def hide_text(self, image, hiddenMessage):
 
+        """
+        This function find the total size of an image (totalPixels). It then compares it with the total length (in bytes)
+        :param image:
+        :param hiddenMessage:
+        :return:
+        """
+
 
         # times row,columns and three channels (r,g,b) to get full image size. Divided by 8 to get byte value
         totalPixels = image.shape[0] * image.shape[1] * 3 // 8
@@ -56,6 +68,7 @@ class ImgSteg:
         delimiter = "*****" # This will be important in the decode section
         binMessage = self.binary_converter(hiddenMessage + delimiter)
         numBits = len(binMessage)
+        print(numBits)
         if numBits >= totalPixels:
             print("ERROR: Insufficient space, please reduce the size of the message")
 
@@ -74,6 +87,8 @@ class ImgSteg:
 
             if len(encodeMessage) == 0:
                 print("\nERROR: Please add a message to encode!")
+
+            self.hide_text(img, encodeMessage)
 
 
 
