@@ -37,8 +37,7 @@ class ImgSteg:
 
         :return:
         If the content is string, then a binary string is returned.
-        If the content is a numpy ndarray, then a list of binary pixel values are returned.
-
+        If the content is a numpy ndarray, then a list of binary pixel values is returned.
         """
         if type(content) == str:
             return ''.join([format(ord(i), "08b") for i in content]) # https://www.geeksforgeeks.org/python-convert-string-to-binary/
