@@ -5,6 +5,7 @@ import numpy as np
 class ImgSteg:
 
 
+
     def open_image(self, img):
 
         """
@@ -28,8 +29,6 @@ class ImgSteg:
 
         return image
 
-
-
     def binary_converter(self, content):
         """
 
@@ -47,37 +46,51 @@ class ImgSteg:
         """
 
         if type(content) == str:
-            return ''.join([format(ord(i), "08b") for i in content]) # https://www.geeksforgeeks.org/python-convert-string-to-binary/
+            return ''.join([format(ord(i), "08b") for i in
+                            content])  # https://www.geeksforgeeks.org/python-convert-string-to-binary/
         elif type(content) == np.ndarray:
-            return [format(i, "08b") for i in content] # https://docs.replit.com/tutorials/python/steganography
-
+            return [format(i, "08b") for i in content]  # https://docs.replit.com/tutorials/python/steganography
 
     def hide_text(self, image, hiddenMessage):
 
         """
-        This function find the total size of an image (totalPixels). It then compares it with the total length (in bytes)
+        This function find the total size of an image (totalPixels).
         :param image:
         :param hiddenMessage:
         :return:
+
+
+        :References:
+        https://medium.com/towards-data-science/hiding-data-in-an-image-image-steganography-using-python-e491b68b1372 -
+
+
         """
 
+        totalBytes = image.size // 8  # calculates the total size of the image
+        print(f"You have a total of {totalBytes} bytes to encode")
+        delimiter = "*****"  # This will be useful in the decode section
 
-        # times row,columns and three channels (r,g,b) to get full image size. Divided by 8 to get byte value
-        totalPixels = image.shape[0] * image.shape[1] * 3 // 8
-        print(f"You have a total of {totalPixels} bytes to encode")
-        delimiter = "*****" # This will be important in the decode section
-        binMessage = self.binary_converter(hiddenMessage + delimiter)
-        numBits = len(binMessage)
-        print(numBits)
-        if numBits >= totalPixels:
+        if len(hiddenMessage + delimiter) >= totalBytes:
             print("ERROR: Insufficient space, please reduce the size of the message")
+            quit()
 
         else:
-            pass
-
-
-
+            binaryMessage = self.binary_converter(hiddenMessage + delimiter)# Binary equivalent of the both the delimiter and the message to be encoded
+            binaryLength = len(binaryMessage)
+            checkIndex = 0
+            for row in image:
+                for pixel in row:
+                    r, g, b = self.binary_converter(pixel)
+                    for x in range(3):
+                        if checkIndex < binaryLength:
+                            channel = [r, g, b][x]
+                            modifiedLSB = int(channel[:-1] + "0")
+                            pixel[x] = modifiedLSB + int(binaryMessage[checkIndex])
+                            checkIndex += 1
+                    if checkIndex >= binaryLength:
+                        break
             return image
+
 
     def encoder(self):
         fileName = input("choose an image: ")
@@ -87,10 +100,6 @@ class ImgSteg:
 
             if len(encodeMessage) == 0:
                 print("\nERROR: Please add a message to encode!")
-
-            self.hide_text(img, encodeMessage)
-
-
 
 
 
