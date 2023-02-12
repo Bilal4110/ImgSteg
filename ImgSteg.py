@@ -6,20 +6,15 @@ class ImgSteg:
 
 
 
+
     def open_image(self, img):
-
         """
-
         This function opens and displays an image using the OpenCV module.
 
-        :parameter:
-
-        img: This is the path of the image to be opened. This will be supplied by a user via an input.
-
-        :return:
-
-        image: Returns the data of the opened image in the form of a numpy array.
-
+            :param img: This is the path of the image to be opened. This will be supplied by a user via the terminal.
+            :type img: str
+            :return image: Returns the data of the opened image in the form of a numpy array.
+            :rtype image: numpy.ndarray
         """
 
         image = cv2.imread(img, cv2.IMREAD_ANYCOLOR)
@@ -29,41 +24,31 @@ class ImgSteg:
 
         return image
 
-    def binary_converter(self, content):
+    def binary_converter(self, data):
+        """Converts a string (Binary message) or a numpy array (pixel) into its equivalent binary value
+
+            :param data: Input data which needs to be converted into binary
+            :type data: str or numpy.ndarray
+            :return: The binary equivalent of the supplied data
+            :rtype: string or list of strings in binary equivalent
         """
 
-        Converts a string (Binary message) or a numpy array (pixel) to its equivalent binary representation
-
-        :parameter:
-
-         content: the inputted content which needs to be converted to binary.
-
-        :return:
-
-        If the content is string, then a binary string is returned.
-        If the content is a numpy ndarray, then a list of binary pixel values is returned.
-
-        """
-
-        if type(content) == str:
-            return ''.join([format(ord(i), "08b") for i in
-                            content])  # https://www.geeksforgeeks.org/python-convert-string-to-binary/
-        elif type(content) == np.ndarray:
-            return [format(i, "08b") for i in content]  # https://docs.replit.com/tutorials/python/steganography
+        if type(data) == str:
+            return ''.join([format(ord(i), "08b") for i in data])  # https://www.geeksforgeeks.org/python-convert-string-to-binary/
+        elif type(data) == np.ndarray:
+            return [format(i, "08b") for i in data]  # https://docs.replit.com/tutorials/python/steganography
 
     def hide_text(self, image, hiddenMessage):
+        """This function hides a text-based message into an image using the LSB method
 
-        """
-        This function find the total size of an image (totalPixels).
-        :param image:
-        :param hiddenMessage:
-        :return:
+            :param image: Image which will be used to store the encoded message (Cover Image)
+            :param hiddenMessage: Message that will be encoded and hidden into the image. This is to be supplied by the user in the form of an input
+            :type image: numpy.ndarray
+            :type hiddenMessage: str
+            :return: The modified image data containing the hidden message
+            :rtype: numpy.ndarray
 
-
-        :References:
-        https://medium.com/towards-data-science/hiding-data-in-an-image-image-steganography-using-python-e491b68b1372 -
-
-
+            References:https://medium.com/towards-data-science/hiding-data-in-an-image-image-steganography-using-python-e491b68b1372 - EXPAND!!!
         """
 
         totalBytes = image.size // 8  # calculates the total size of the image
@@ -96,6 +81,7 @@ class ImgSteg:
         fileName = input("choose an image: ")
         if fileName.endswith(".png"):
             img = self.open_image(fileName)
+            print(type(img))
             encodeMessage = input("choose message: ")
 
             if len(encodeMessage) == 0:
