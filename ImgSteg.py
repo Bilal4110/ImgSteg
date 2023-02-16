@@ -107,10 +107,11 @@ class Main:  # Creates a class called "Main"
                     binaryMessage += (channel[-1])# Adds the LSB value of each channel (r,g,b) into the BinaryMessage variable.
                     if self.delimiter in self.binary_to_ascii(binaryMessage): # This checks to see if the delimiter is found within the binary message. If so, the previous for loop will stop. https://stackoverflow.com/questions/9797446/how-to-remove-certain-characters-from-a-variable-python
                         text = self.binary_to_ascii(binaryMessage) # This converts the extracted binary values (with the delimiter)
-                        message = text.replace(self.delimiter, "") # https://stackoverflow.com/questions/9797446/how-to-remove-certain-characters-from-a-variable-python
+                        message = text.replace(self.delimiter, "") # Removes the delimiter from the string  https://stackoverflow.com/questions/9797446/how-to-remove-certain-characters-from-a-variable-python
                         return message
 
     def encode(self):
+        print("\nWelcome to ImgSteg.py")
         fileName = input("\nImage Filename with extension (PNG files only): ") # Ask the user to input an image file name. Due to compression concerns only PNG files will be accepted within this program.
         if fileName.endswith("png"): # Checks to verify that  the filename adds with a .png suffix.
             img = self.open_image(fileName) # Opens the inputted filename using the previously created open_image function.
@@ -132,7 +133,7 @@ class Main:  # Creates a class called "Main"
 
     def decode(self):
         choice = input("\nDo you wish to decode your image? (y/n): ")
-        if choice == "y" or choice == "Yes" or choice == "Y": # Enables the user to select a wider range of confirmation statements
+        if choice == "y" or choice == "yes" or choice == "Y": # Enables the user to select a wider range of confirmation statements
             encodedImg = cv2.imread(self.dest)
             print(f"\nDecoded Message: {self.show_text(encodedImg)}")
 
