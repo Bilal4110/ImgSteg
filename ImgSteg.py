@@ -107,7 +107,7 @@ class Main:  # Creates a class called "Main"
                     binaryMessage += (channel[-1])# Adds the LSB value of each channel (r,g,b) into the BinaryMessage variable.
                     if self.delimiter in self.binary_to_ascii(binaryMessage): # This checks to see if the delimiter is found within the binary message. If so, the previous for loop will stop. https://stackoverflow.com/questions/9797446/how-to-remove-certain-characters-from-a-variable-python
                         text = self.binary_to_ascii(binaryMessage) # This converts the extracted binary values (with the delimiter)
-                        message = text.replace(self.delimiter, "") # Removes the delimiter from the string  https://stackoverflow.com/questions/9797446/how-to-remove-certain-characters-from-a-variable-python
+                        message = text.replace(self.delimiter, "") # Removes the delimiter from the string by replacing it with an empty string value ("") https://stackoverflow.com/questions/9797446/how-to-remove-certain-characters-from-a-variable-python
                         return message
 
     def encode(self):
