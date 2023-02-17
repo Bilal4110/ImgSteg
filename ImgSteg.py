@@ -178,8 +178,13 @@ class Main:  # Creates a class called "Main"
         else:
             print("\nERROR: Please choose a valid option (y/n)") # If the user inputs an invalid option other than y/n then this error message is displayed to them.
 
+    def main(self):
+        pass
+
+
 
 if __name__ == "__main__": # Ensures that the program is only executed if it is being directly being run as a main program, and not when imported as a module in another python script.
     obj = Main() # Creates instance of the "main" class and stores it in the "obj" variable.
     obj.encode() # Calls the "encode()" function/method to encode a message into an image using the LSB method.
     obj.decode() # Calls the "decode()" function/method to decode a message from an encoded image.
+# TEST
