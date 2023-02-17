@@ -5,6 +5,17 @@ import numpy as np  # Numpy Module
 class Main:  # Creates a class called "Main"
 
     def __init__(self):
+
+        """
+        This function creates a new instance of the Main class.
+
+        :Attribute dest: The file path of the saved encoded image
+        :Attribute delimiter: This string is used to separate the encoding message from the image data during the decoding process.
+        :type self.dest: str
+        :type self.delimiter: str
+
+
+        """
         self.dest = None  # This will be the location of the saved encoded image. This variable will also be used in the decoding process to decode the previously encoded image.
         self.delimiter = "*****"  # This delimiter will be used in the decoding phase to prevent possible decoding issues. Please note any string can be used as the delimiter as long as it is referenced in the decoding stage.
 
@@ -18,15 +29,15 @@ class Main:  # Creates a class called "Main"
             :rtype image: numpy.ndarray
         """
 
-        image = cv2.imread(img, cv2.IMREAD_ANYCOLOR)  # Loads an image from the supplied user input.
-        cv2.imshow("Your image", image)  # Shows the loaded image to the user with the heading "Your Image".
-        cv2.waitKey(0)  # Keeps the image open until a user decides to press a key, or click on the exit button. https://pyimagesearch.com/2014/06/02/opencv-load-image/
+        image = cv2.imread(img, cv2.IMREAD_ANYCOLOR)  # Reads and loads an image from the supplied user input. The image can be read in any color
+        cv2.imshow("Your image", image)  # Displays the loaded image to the user with the heading "Your Image".
+        cv2.waitKey(0)  # Keeps the image open indefinitely until a user decides to press a key, or click on the exit button. https://pyimagesearch.com/2014/06/02/opencv-load-image/
         cv2.destroyAllWindows()  # Removes the opened window when an action is specified.
         return image  # Returns the image data in the form of a numpy array.
 
     def data_to_binary(self, data):  # Creates a function to convert data types to binary
         """
-        Converts a string (Binary message) or a numpy array (pixel) into its equivalent binary value
+        Converts a string (Binary message) or a numpy array (pixel) into its equivalent binary value.
 
             :param data: Input data which needs to be converted into binary
             :type data: str or numpy.ndarray
@@ -51,15 +62,17 @@ class Main:  # Creates a class called "Main"
         """
 
         allBytes = [binaryData[i: i + 8] for i in range(0, len(binaryData), 8)]
-        decodedData = ""
-        for bytes in allBytes:
+
+        decodedData = "" # Creates an empty string under the variable "decodedData". This will be used to store the converted message.
+        for bytes in allBytes: # Loops
             decodedData += chr(int(bytes, 2))
         return decodedData  # Returns the decoded string, so it can be displayed to the user
 
     def hide_text(self, image, hiddenMessage):
         """
-        This function hides a text-based message into an image using the LSB method. It first calculates the sizes of both the image and the message (with delimiter) which needs to be encoded.
-        This is to ensure that there enough available bytes to encode. If there is enough space, then a message is encoded within the least significant bits of the image's pixels.
+        This function hides a text-based message into an image using the LSB method.
+        It first calculates the sizes of both the image and the message (with delimiter) which needs to be encoded.
+        This is to ensure that there enough available bytes to encode. If there is enough space, then the user supplied message is encoded within the least significant bits of the image's pixels.
 
             :param image: Image which will be used to store the encoded message (Cover Image)
             :param hiddenMessage: Message that will be encoded and hidden into the image. This is to be supplied by the user in the form of an input
@@ -88,16 +101,20 @@ class Main:  # Creates a class called "Main"
                             checkIndex += 1 # Adds 1 to the Index variable.
                     if checkIndex >= binaryLength: # Checks to see if the Index is greater than, or equal to the length of the binary message
                         break # Stops the loop.
-                return image # Returns the modified image data with the encoded message and delimiter embedded within the LSBs.
+                return image # Returns the modified image data with the encoded message and delimiter embedded within the LSBs of the image.
 
     def show_text(self, encodedImage):
         """
-        This function displa
 
+        Extracts a hidden text from an encoded Image's pixels using the LSB method.
+        Once the text is extracted, the delimiter is removed from the text to form a message which can be returned to the user.
 
-        :param encodedImage:
-        :return:
+            :param encodedImage: A numpy array which represents the previously encoded image.
+            :type encodedImage: numpy.ndarray
+            :return: The hidden encoded text message which was taken from the image.
+            :rtype: str
         """
+
         binaryMessage = ""
         for row in encodedImage:
             for pixels in row:
@@ -111,6 +128,14 @@ class Main:  # Creates a class called "Main"
                         return message
 
     def encode(self):
+        """
+        Encodes a message into a PNG image file. The user is asked to input a .png image file as well as a message to encode.
+        Due to lossy compression algorithms present within .jpeg files, only png files are accepted in this program. More information regarding this can be found at: https://odsc.medium.com/study-finds-novel-method-of-resolving-jpeg-compression-defects-in-computer-vision-datasets-78a325fbeda0.
+        Once the encoding has finished, the image is saved with the appended suffix "_encoded.png".
+
+        :return: None
+        """
+
         print("\nWelcome to ImgSteg.py")
         fileName = input("\nImage Filename with extension (PNG files only): ") # Ask the user to input an image file name. Due to compression concerns only PNG files will be accepted within this program.
         if fileName.endswith("png"): # Checks to verify that  the filename adds with a .png suffix.
@@ -124,7 +149,7 @@ class Main:  # Creates a class called "Main"
             print("\nEncoding...") # Print statement to inform users that the encoding process is taking place.
             encodedImage = self.hide_text(img, encodeMessage)
             self.dest = (fileName.removesuffix(".png") + "_encoded.png") #
-            cv2.imwrite(self.dest, encodedImage) # Saves the encoded image under the predefined.
+            cv2.imwrite(self.dest, encodedImage) # Saves the encoded image under the predefined filename.
             print("\nYour image has been encoded and saved")  # Print statement to inform users that the image has been encoded and saved
 
         else:
@@ -132,17 +157,24 @@ class Main:  # Creates a class called "Main"
             quit() # Quits the program
 
     def decode(self):
-        choice = input("\nDo you wish to decode your image? (y/n): ")
-        if choice == "y" or choice == "yes" or choice == "Y": # Enables the user to select a wider range of confirmation statements
-            encodedImg = cv2.imread(self.dest)
-            print(f"\nDecoded Message: {self.show_text(encodedImg)}")
+        """
+        This functions asks the user if they wish to decode their newly encoded image.
+        If they enter "y", "yes" or "Y" the image is decoded, the hidden message is displayed to the user.
+        If the input is "n" or "no", then the program quits.
 
-        elif choice == "n" or choice == "no":
-            print("\nQuiting...")
-            quit()
+        :return: None
+        """
+        choice = input("\nDo you wish to decode your image? (y/n): ") # Ask the user if they wish to decode the previously encoded image.
+        if choice == "y" or choice == "yes" or choice == "Y": # Checks to see if the user has inputted a range of confirmation statement. This allows the user to select a wider range of confirmation statements.
+            encodedImg = cv2.imread(self.dest)
+            print(f"\nDecoded Message: {self.show_text(encodedImg)}") # Displays the encoded message to the user in the terminal.
+
+        elif choice == "n" or choice == "no": # Checks to see if the user has inputted "n" or "no".
+            print("\nQuiting...") # Informs the user that the program is quiting.
+            quit() # The program quits.
 
         else:
-            print("\nERROR: Please choose a valid option (y/n)")
+            print("\nERROR: Please choose a valid option (y/n)") # If the user inputs an invalid option other than y/n then this error message is displayed to them.
 
 
 if __name__ == "__main__":
