@@ -3,7 +3,11 @@
 ---
 ### **Introduction**
 
-**ImgSteg** is an opensource steganography tool which encodes and decodes messages within an image. **Please note** this tool should be used for educative purposes only.
+**ImgSteg.py** is an opensource steganography tool which encodes and decodes messages within an image using the LSB method. 
+
+This method is an ideal encoding method as it enables messages to be hidden without changing the appearance of the image. 
+
+**Please note**  that this tool should be used for educative purposes only.
 
 ### Instructions
 
