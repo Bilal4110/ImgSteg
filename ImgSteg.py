@@ -100,7 +100,7 @@ class Main:  # Creates a class called "Main"
                             Index += 1 # Adds 1 to the Index variable.
                     if Index >= binaryLength: # Checks to see if the Index is greater than, or equal to the length of the binary message
                         break # Stops the loop.
-                    return image # Returns the modified image data with the encoded message and delimiter embedded within the LSBs of the image.
+                return image # Returns the modified image data with the encoded message and delimiter embedded within the LSBs of the image.
 
 
     def encode(self):
@@ -111,7 +111,7 @@ class Main:  # Creates a class called "Main"
 
         :return: None
         """
-
+        print("===========================")
         fileName = input("\nImage Filename with extension (PNG files only): ") # Ask the user to input an image file name. Due to compression concerns only PNG files will be accepted by this program.
         if fileName.endswith("png"): # Checks to verify that  the filename adds with the .png suffix.
             img = self.open_image(fileName) # Opens the inputted image filename using the previously created open_image function.
@@ -143,6 +143,7 @@ class Main:  # Creates a class called "Main"
             :return: The hidden encoded text message which was taken from the image.
             :rtype: str
         """
+        print("===========================")
         imageName = input("\nPlease supply an image name to decode: ")
         encodedImage = self.open_image(imageName)
         binaryMessage = "" # Creates an empty string under the "binaryMessage" variable. This will be used to store the extracted binary message.
@@ -157,22 +158,31 @@ class Main:  # Creates a class called "Main"
                         message = text.replace(self.delimiter, "") # Removes the delimiter from the string by replacing it with an empty string value (""). Concept taken from: https://stackoverflow.com/questions/9797446/how-to-remove-certain-characters-from-a-variable-python
                         return message
 
+
     def menu(self):
+        """
+        :return:
+        """
         while True:
-            print("\nWelcome to ImgSteg.py")
+            print("\nWelcome to ImgSteg.py!!!")
+            print("=========================")
             choice = input("""\n1. Encode an Image.
             \n2. Decode an Image.
             \n3. Exit the program.
             \nPlease select a choice: """)
             if choice == "1":
                 self.encode()
+                break
 
             if choice == "2":
                 decodedMessage = self.decode()
                 print(f"\nYour decoded message is: {decodedMessage}")
+                break
 
             if choice == "3":
+                print("\nExiting....")
                 exit()
+
 
 
 
