@@ -8,13 +8,10 @@ class Main:  # Creates a class called "Main"
 
         """
         This function creates a new instance of the Main class.
-
         :Attribute dest: The file path of the saved encoded image
         :Attribute delimiter: This string is used to separate the encoding message from the image data during the decoding process.
         :type self.dest: str
         :type self.delimiter: str
-
-
         """
         self.dest = None  # This will be the location of the saved encoded image. This variable will also be used in the decoding process to decode the previously encoded image.
         self.delimiter = "*****"  # This delimiter will be used in the decoding phase to prevent possible decoding issues. Please note any string can be used as the delimiter as long as it is referenced in the decoding stage.
@@ -22,7 +19,6 @@ class Main:  # Creates a class called "Main"
     def open_image(self, img):
         """
         This function opens and displays an image using the OpenCV module.
-
             :param img: This is the path of the image to be opened. This will be supplied by a user via the terminal.
             :type img: str
             :return image: Returns the data of the opened image.
@@ -38,7 +34,6 @@ class Main:  # Creates a class called "Main"
     def data_to_binary(self, data):  # Creates a function to convert data types to binary
         """
         Converts a string (Binary message) or a numpy array (pixel) into its equivalent binary value.
-
             :param data: Input data which needs to be converted into binary
             :type data: str or numpy.ndarray
             :return: The binary equivalent of the supplied data
@@ -54,7 +49,6 @@ class Main:  # Creates a class called "Main"
     def binary_to_ascii(self, binaryData): # Code in this function has been taken from: https://www.javatpoint.com/image-steganography-using-python
         """
         This function converts binary values to their corresponding ASCII characters.
-
             :param binaryData: Binary data that needs to be converted into ASCII characters
             :type binaryData: str
             :return: Returns the ASCII character from the binary values that were inputted
@@ -72,7 +66,6 @@ class Main:  # Creates a class called "Main"
         This function hides a text-based message into an image using the LSB method.
         It first calculates the sizes of both the image and the message (with delimiter) which needs to be encoded.
         This is to ensure that there enough available bytes to encode. If there is enough space, then the user supplied message is encoded within the least significant bits of the image's pixels.
-
             :param image: Image which will be used to store the encoded message (Cover Image)
             :param hiddenMessage: Message that will be encoded and hidden into the image. This is to be supplied by the user in the form of an input
             :type image: numpy.ndarray
@@ -100,18 +93,40 @@ class Main:  # Creates a class called "Main"
                             Index += 1 # Adds 1 to the Index variable.
                     if Index >= binaryLength: # Checks to see if the Index is greater than, or equal to the length of the binary message
                         break # Stops the loop.
-                    return image # Returns the modified image data with the encoded message and delimiter embedded within the LSBs of the image.
+                return image # Returns the modified image data with the encoded message and delimiter embedded within the LSBs of the image.
 
+    def show_text(self, encodedImage):
+        """
+        Extracts a hidden text from an encoded Image's pixels using the LSB method.
+        Once the text is extracted, the delimiter is removed from the text to form a message which can be returned to the user.
+            :param encodedImage: A numpy array which represents the previously encoded image.
+            :type encodedImage: numpy.ndarray
+            :return: The hidden encoded text message which was taken from the image.
+            :rtype: str
+        """
+
+        binaryMessage = "" # Creates an empty string under the "binaryMessage" variable. This will be used to store the extracted binary message.
+        for row in encodedImage: # This loop goes over each row present within the encoded image. Essentially this a line of pixels. Loop taken from:  https://medium.com/towards-data-science/hiding-data-in-an-image-image-steganography-using-python-e491b68b1372
+            for pixels in row: # This loop iterates over each pixel present in that specific row. Loop taken from: https://medium.com/towards-data-science/hiding-data-in-an-image-image-steganography-using-python-e491b68b1372
+                r, g, b = self.data_to_binary(pixels) # splits pixels into r,g,b and then converts them to their binary equivalent.
+                for x in range(3): # loops 0 - 2 (0 = Red, 1 = Green, and 2 = Blue).
+                    channel = [r, g, b][x] # Selects one of the r,g,b color channels.
+                    binaryMessage += (channel[-1])# Adds the LSB value of each channel (r,g,b) into the BinaryMessage variable.
+                    if self.delimiter in self.binary_to_ascii(binaryMessage): # This checks to see if the delimiter is found within the binary message. If so, the previous for loop will stop. Concept taken from: https://stackoverflow.com/questions/9797446/how-to-remove-certain-characters-from-a-variable-python
+                        text = self.binary_to_ascii(binaryMessage) # This converts the extracted binary values (with the delimiter) into ASCII characters.
+                        message = text.replace(self.delimiter, "") # Removes the delimiter from the string by replacing it with an empty string value (""). Concept taken from: https://stackoverflow.com/questions/9797446/how-to-remove-certain-characters-from-a-variable-python
+                        return message
 
     def encode(self):
         """
         Encodes a message into a PNG image file. The user is asked to input a .png image file as well as a message to encode.
         Due to lossy compression algorithms present within .jpeg files, only png files are accepted in this program. More information regarding this can be found at: https://odsc.medium.com/study-finds-novel-method-of-resolving-jpeg-compression-defects-in-computer-vision-datasets-78a325fbeda0.
         Once the encoding has finished, the image is saved with the appended suffix "_encoded.png".
-
         :return: None
         """
 
+        print("\nWelcome to ImgSteg.py")
+        print("=============================================================")
         fileName = input("\nImage Filename with extension (PNG files only): ") # Ask the user to input an image file name. Due to compression concerns only PNG files will be accepted by this program.
         if fileName.endswith("png"): # Checks to verify that  the filename adds with the .png suffix.
             img = self.open_image(fileName) # Opens the inputted image filename using the previously created open_image function.
@@ -126,7 +141,7 @@ class Main:  # Creates a class called "Main"
             self.dest = (fileName.removesuffix(".png") + "_encoded.png") # Removes the suffix ".png" from the encoded image, and adds the new "_encoded.png" to the end of the filename.
             cv2.imwrite(self.dest, encodedImage) # Saves the encoded image under the predefined filename.
             print(f"\nYour image has been encoded and saved as {self.dest}")  # Print statement to inform users that the image has been encoded and saved.
-            print("=================================================================")
+            print("\n=============================================================")
 
         else:
             print("\nERROR: Please supply a png image") # Error statement if a non .png image is inputted by the user.
@@ -134,52 +149,26 @@ class Main:  # Creates a class called "Main"
 
     def decode(self):
         """
-
-        Extracts a hidden text from an encoded Image's pixels using the LSB method.
-        Once the text is extracted, the delimiter is removed from the text to form a message which can be returned to the user.
-
-            :param encodedImage: A numpy array which represents the previously encoded image.
-            :type encodedImage: numpy.ndarray
-            :return: The hidden encoded text message which was taken from the image.
-            :rtype: str
+        This functions asks the user if they wish to decode their newly encoded image.
+        If they enter "y", "yes" or "Y" the image is decoded, the hidden message is displayed to the user.
+        If the input is "n" or "no", then the program quits.
+        :return: None
         """
-        imageName = input("\nPlease supply an image name to decode: ")
-        encodedImage = self.open_image(imageName)
-        binaryMessage = "" # Creates an empty string under the "binaryMessage" variable. This will be used to store the extracted binary message.
-        for row in encodedImage: # This loop goes over each row present within the encoded image. Essentially this a line of pixels. Loop taken from:  https://medium.com/towards-data-science/hiding-data-in-an-image-image-steganography-using-python-e491b68b1372
-            for pixels in row: # This loop iterates over each pixel present in that specific row. Loop taken from: https://medium.com/towards-data-science/hiding-data-in-an-image-image-steganography-using-python-e491b68b1372
-                r, g, b = self.data_to_binary(pixels) # splits pixels into r,g,b and then converts them to their binary equivalent.
-                for x in range(3): # loops 0 - 2 (0 = Red, 1 = Green, and 2 = Blue).
-                    channel = [r, g, b][x] # Selects one of the r,g,b color channels.
-                    binaryMessage += (channel[-1])# Adds the LSB value of each channel (r,g,b) into the BinaryMessage variable.
-                    if self.delimiter in self.binary_to_ascii(binaryMessage): # This checks to see if the delimiter is found within the binary message. If so, the previous for loop will stop. Concept taken from: https://stackoverflow.com/questions/9797446/how-to-remove-certain-characters-from-a-variable-python
-                        text = self.binary_to_ascii(binaryMessage) # This converts the extracted binary values (with the delimiter) into ASCII characters.
-                        message = text.replace(self.delimiter, "") # Removes the delimiter from the string by replacing it with an empty string value (""). Concept taken from: https://stackoverflow.com/questions/9797446/how-to-remove-certain-characters-from-a-variable-python
-                        return message
+        choice = input("\nDo you wish to decode your image? (y/n): ") # Ask the user if they wish to decode the previously encoded image.
+        if choice == "y" or choice == "yes" or choice == "Y": # Checks to see if the user has inputted a range of confirmation statement. This allows the user to select a wider range of confirmation statements.
+            encodedImg = cv2.imread(self.dest) # Reads the image from the location of the previously encoded image.
+            print(f"\nThe Decoded Message is: {self.show_text(encodedImg)}") # Displays the encoded message to the user within the terminal.
+            print("\n=============================================================")
 
-    def menu(self):
-        while True:
-            print("\nWelcome to ImgSteg.py")
-            choice = input("""\n1. Encode an Image.
-            \n2. Decode an Image.
-            \n3. Exit the program.
-            \nPlease select a choice: """)
-            if choice == "1":
-                self.encode()
+        elif choice == "n" or choice == "no": # Checks to see if the user has inputted "n" or "no".
+            print("\nQuiting...") # Informs the user that the program is quiting.
+            quit() # The program quits.
 
-            if choice == "2":
-                decodedMessage = self.decode()
-                print(f"\nYour decoded message is: {decodedMessage}")
-
-            if choice == "3":
-                exit()
-
-
-
-
-
+        else:
+            print("\nERROR: Please choose a valid option (y/n)") # If the user inputs an invalid option other than y/n then this error message is displayed to them.
 
 
 if __name__ == "__main__": # Ensures that the program is only executed if it is being directly being run as a main program, and not when imported as a module in another python script.
     obj = Main() # Creates instance of the "main" class and stores it in the "obj" variable.
-    obj.menu()
+    obj.encode() # Calls the "encode()" function/method to encode a message into an image using the LSB method.
+    obj.decode() # Calls the "decode()" function/method to decode a message from an encoded image.
