@@ -33,6 +33,8 @@ NumPy is an open-source Python library which is used for mathematical calculatio
 pip install numpy
 ```
 
+For a full guide on installing all the necessary the libraries for this program, please view the following link: https://github.coventry.ac.uk/pages/CUEH/5062CEM/labs/tutorials/OpenCV_WSL/
+
 
 ## Instructions
 
