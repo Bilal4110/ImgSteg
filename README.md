@@ -4,7 +4,7 @@
 
 ## Introduction
 
-**ImgSteg.py** is an open-source steganography tool which encodes and decodes messages within an image using the least significant bit (LSB) method. The LSB method is a very effective approach to encoding, as it enables messages to be secretly embedded without changing the appearance of the image. For more information pertaining to this topic, the following links have been provided:
+**ImgSteg.py** is an open-source steganography tool which encodes and decodes messages within an image using the least significant bit (LSB) method. The LSB method is a very effective approach to encoding, as it enables messages to be secretly embedded without changing the appearance of the image. For more information pertaining to this topic, please view the following links:
 
 - Steganography Explanation and Code Examples (Least Significant Bit) - https://www.youtube.com/watch?v=ZFGlJGwaN2w
 
@@ -107,7 +107,7 @@ pip install numpy
    Select Option: 2
    ```
 
-2. You will then be asked to input the name of an image file to decode. If the image you wish to decode is not located in the same directory as the program, please provide the full path of the image when prompted.
+2. You will then be asked to input the name of an image file to decode. If the image you wish to decode is not located in the same directory as the program, then please provide the full path of the image when prompted.
 
    ```
    Select Option: 2
@@ -116,7 +116,7 @@ pip install numpy
    Image to decode: img_encoded.png
    ```
    
-3. Once you supply the image filename, the decoded message from the image will be displayed in the terminal. 
+3. Once you have provided an image to decode, the decoded message from the image will be displayed in the terminal. 
    
    ```
    Select Option: 2
