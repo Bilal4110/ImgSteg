@@ -4,7 +4,7 @@
 
 ## Introduction
 
-**ImgSteg.py** is an open-source steganography tool which encodes and decodes messages within an image using the least significant bit (LSB) method. The LSB method is a very effective approach to encoding, as it enables messages to be secretly embedded without changing the appearance of the image. For more information pertaining to this topic, please view the following links:
+**ImgSteg.py** is an open-source steganography tool which encodes and decodes messages within an image using the least significant bit (LSB) method. The LSB method is a very effective approach to encoding, as it enables messages to be secretly hidden without changing the appearance of the image. For more information pertaining to this topic, please view the following links:
 
 - Steganography Explanation and Code Examples (Least Significant Bit) - https://www.youtube.com/watch?v=ZFGlJGwaN2w
 
@@ -63,7 +63,7 @@ pip install numpy
 
 ### Encoding an Image
    
-1. After inputting 1 into the terminal, you will be prompted to provide an image and message to encode. If the image you wish to encode is not located in the same directory as the program, please provide the full path of the image when prompted.  
+1. After inputting 1 into the terminal, you will be prompted to provide an image and message to encode. If the image you wish to encode is not located in the same directory as the program, then please provide the full path of the image when prompted.  
 
    ```
    Select Option: 1
@@ -74,7 +74,7 @@ pip install numpy
    Message to encode: This is a test
    ```
 
-2. After supplying the required information and pressing enter. The message will then be encoded into the previously supplied image. Once the encoding process has taken place, the newly encoded image will be saved with the suffix _encoding.png (as seen below). The program will then quit to enable the image to properly save. 
+2. After supplying the required information and pressing enter. The message will then be encoded into the previously supplied image. Once this process has taken place, the newly encoded image will be saved with the suffix _encoding.png (as seen below). The program will then quit enabling the image to properly save. 
 
    ```
    Select Option: 1
@@ -107,7 +107,7 @@ pip install numpy
    Select Option: 2
    ```
 
-2. You will then be asked to input the name of an image file to decode. If the image you wish to decode is not located in the same directory as the program, then please provide the full path of the image when prompted.
+2. You will then be asked to input the name of an image file to decode. If the image you wish to decode is not located in the same directory as the program,then please provide the full path of the image when prompted.
 
    ```
    Select Option: 2
