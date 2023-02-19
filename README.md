@@ -4,7 +4,7 @@
 
 ## Introduction
 
-**ImgSteg.py** is an open-source steganography tool which encodes and decodes messages within an image using the LSB (Least-significant bit). The LSB method is both an efficient approach to encoding, as it enables messages to be secretly embedded without changing the appearance of the image. For more information on this topic, please view the following resources:
+**ImgSteg.py** is an open-source steganography tool which encodes and decodes messages within an image using the least significant bit (LSB) method. The LSB method is a very effective approach to encoding, as it enables messages to be secretly embedded without changing the appearance of the image. For more information pertaining to this topic, the following links have been provided:
 
 - Steganography Explanation and Code Examples (Least Significant Bit) - https://www.youtube.com/watch?v=ZFGlJGwaN2w
 
