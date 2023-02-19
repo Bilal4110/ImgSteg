@@ -42,7 +42,7 @@ class Main:  # Creates a class called "Main"
 
         if type(data) == str:  # Checks to see if the supplied data is a string. This is the message which is to be encoded into the user supplied image.
             return ''.join(format(ord(i), '08b') for i in data) # Converts a string of ASCII characters into binary values. Code taken from: https://www.geeksforgeeks.org/python-convert-string-to-binary/
-        elif type(data) == np.ndarray:  # Checks to see if the supplied data is an numpy.ndarray. This is the data present within the image to be encoded.
+        elif type(data) == np.ndarray:  # Checks to see if the supplied data is an numpy.ndarray. This is the data present within the image to be encoded/decoded.
             return [format(i, "08b") for i in data] # Converts array of RGB pixels (ndarray) into their binary equivalents. Code taken from: https://medium.com/towards-data-science/hiding-data-in-an-image-image-steganography-using-python-e491b68b1372
 
 
@@ -50,9 +50,9 @@ class Main:  # Creates a class called "Main"
         """
         This function converts binary values to their corresponding ASCII characters.
 
-            :param binaryData: Binary data that needs to be converted into ASCII characters
+            :param binaryData: Binary data that needs to be converted into ASCII characters.
             :type binaryData: str
-            :return: Returns the ASCII character from the binary values that were inputted
+            :return: Returns the ASCII character from the binary values that were inputted.
             :rtype: str
         """
 
@@ -60,7 +60,7 @@ class Main:  # Creates a class called "Main"
         decodedData = "" # Creates an empty string under the variable "decodedData". This will be used to store the converted message.
         for bytes in allBytes:
             decodedData += chr(int(bytes, 2))
-        return decodedData  # Returns the decoded string, so it can be displayed to the user.
+        return decodedData  # Returns the decoded string, so that it can be displayed to the user.
 
     def hide_text(self, image, hiddenMessage):
         """
@@ -198,5 +198,4 @@ To further improve and expand on the functionality of this program, the followin
 1. Utilise an encryption key to safely encode and decode a message into an image.
 2. A password could be added to ensure that only authorised users can decode the message within the image.
 3. Create more functions to embed a wide variety of digital data such as images and audio files into other images. 
-
 """
