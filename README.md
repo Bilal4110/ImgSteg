@@ -63,7 +63,7 @@ pip install numpy
 
 ### Encoding an Image
    
-2. After inputting 1 into the terminal, you will be prompted to provide an image and message to encode. If the image you wish to encode is not located in the same directory as the program, please provide the full path of the image when prompted.  
+1. After inputting 1 into the terminal, you will be prompted to provide an image and message to encode. If the image you wish to encode is not located in the same directory as the program, please provide the full path of the image when prompted.  
 
    ```
    Select Option: 1
@@ -74,7 +74,7 @@ pip install numpy
    Message to encode: This is a test
    ```
 
-3. After supplying the required information and pressing enter. The message will then be encoded into the previously supplied image. Once the encoding process has taken place, the newly encoded image will be saved with the suffix _encoding.png (as seen below). The program will then quit to enable the image to properly save. 
+2. After supplying the required information and pressing enter. The message will then be encoded into the previously supplied image. Once the encoding process has taken place, the newly encoded image will be saved with the suffix _encoding.png (as seen below). The program will then quit to enable the image to properly save. 
 
    ```
    Select Option: 1
