@@ -109,7 +109,7 @@ For a full guide on installing all the necessary libraries for this program, ple
    Select Option: 2
    ```
 
-2. You will then be asked to input the name of an image file to decode. If the image you wish to decode is not located in the same directory as the program,please provide the full path of the image when prompted.
+2. You will then be asked to input the name of an image file to decode. If the image you wish to decode is not located in the same directory as the program, please provide the full path of the image when prompted.
 
    ```
    Select Option: 2
